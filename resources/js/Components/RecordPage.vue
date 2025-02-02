@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             <tr v-for="(week, index) in getWeeks()" :key="index">
-                <td v-for="day in week" :key="day?.day">
+                <td v-for="day in week" :key="day?.day" :class="day?.is_weekend ? 'holiday' : ''">
                     {{ day ? day.day : '' }}
                 </td>
             </tr>
@@ -83,5 +83,8 @@ table td {
     width: 12.7%;
     height: 100px;
     text-align: center;
+}
+.holiday {
+    background-color: rgb(255, 219, 219);
 }
 </style>
