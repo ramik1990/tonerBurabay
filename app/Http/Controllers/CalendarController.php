@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Shedule;
 
 class CalendarController extends Controller
 {
@@ -20,9 +21,14 @@ class CalendarController extends Controller
                 'date' => $currentDate->toDateString(),
                 'day' => $day,
                 'day_of_week' => $currentDate->format('l'),
-                'is_weekend' => $currentDate->isWeekend()
+                'is_weekend' => $currentDate->isWeekend(),
+                'shedule' => $this->getShedule($currentDate->format('l'))
             ];
         }
         return response()->json($calendar);
+    }
+
+    public function getShedule($dayOfWeek) {
+        return Shedule::where('day_of_week',$dayOfWeek)->first();
     }
 }
