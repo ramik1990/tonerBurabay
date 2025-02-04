@@ -1,4 +1,5 @@
 <template>
+    <timeline :day="dayToTimeline" />
     <table border="1" v-if="calendarOnMonth.length">
         <thead>
             <tr>
@@ -13,7 +14,7 @@
         </thead>
         <tbody>
             <tr v-for="(week, index) in getWeeks()" :key="index">
-                <td v-for="day in week" :key="day?.day" :class="day?.is_weekend ? 'holiday' : ''">
+                <td v-for="day in week" :key="day?.day" :class="day?.is_weekend ? 'holiday' : ''" @click="toTimeline(day)">
                     {{ day ? day.day : '' }}
                 </td>
             </tr>
@@ -24,6 +25,7 @@
 
 <script>
 import axios from 'axios';
+import DayTimeLine from './DayTimeLine.vue';
 
 export default {
     name: "Calendar",
@@ -31,9 +33,13 @@ export default {
         year: Number,
         month: Number
     },
+    components: {
+        'timeline' : DayTimeLine
+    },
     data() {
         return {
-            calendarOnMonth: []
+            calendarOnMonth: [],
+            dayToTimeline: null
         }
     },
     methods: {
@@ -64,6 +70,9 @@ export default {
         getDayIndex(day) {
             const daysofWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday'];
             return daysofWeek.indexOf(day);            
+        },
+        toTimeline(day) {
+            this.dayToTimeline = day;
         }
     },
     mounted() {
